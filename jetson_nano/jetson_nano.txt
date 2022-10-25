@@ -1,0 +1,22 @@
+#download version rtsp server:  
+-Truy cập địa chỉ https://github.com/aler9/rtsp-simple-server/releases 
+-Tải rtsp-simple-server_v0.20.0_linux_arm64v8.tar.gz và giải nén
+
+#Open terminal
+#cài đặt ffmpeg:
+	$ sudo apt-get install ffmpeg 
+
+#cài đặt v4l2:
+	$ sudo apt-get install v4l-utils
+
+#Để có thể khởi tạo RTSP server thì cần biết IP mạng đang sử dụng có dạng 192.168.xxx.xxx bằng cách:
+	$ ifconfig
+
+#Start RTSP SerVer:
+	$ rtspServer=192.168.XXX.XXX:rtsp://192.168.XXX.XXX:8554/webCamStream ./rtsp-simple-server 
+(thay địa chỉ ip mạng đang sử dụng vào 192.168.xxx.xxx)
+
+# Push video stream from wedcam to RTSP server:
+	$ sudo ffmpeg -f v4l2 -framerate 24 -video_size 1280x960 -i /dev/video0 -f rtsp -rtsp_transport tcp rtsp://192.168.XXX.XXX:8554/webCamStream
+
+Như vậy là đã đẩy được video lên server thành công.
